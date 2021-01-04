@@ -12,7 +12,7 @@ load_dotenv()
 response = requests.post("https://api-7.whoop.com/oauth/token", json={
     "grant_type": "password",
     "issueRefresh": False,
-    "password": os.getenv('USER_PASSWORD'),
+    "password": os.getenv('USER_PASSWORDD'),
     "username": os.getenv('USER_USERNAME')
 })
 
@@ -20,6 +20,7 @@ response = requests.post("https://api-7.whoop.com/oauth/token", json={
 # Exit if fail
 if response.status_code != 200:
     print("Fail - Credentials rejected.")
+    print(response.raise_for_status())
     exit()
 else:
     print("Success - Credentials accepted")
@@ -47,7 +48,8 @@ response = requests.get(url, params=params, headers=headers)
 
 # Check if user/auth are accepted
 if response.status_code != 200:
-    print("Fail - User ID / auth token rejected.")
+    print("Fail - Credentials rejected.")
+    print(response.raise_for_status())
     exit()
 else:
     print("Success - User ID / auth token accepted")
